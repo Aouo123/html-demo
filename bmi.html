@@ -128,5 +128,22 @@
         <button type="submit">計算</button>
     </form>
     <a href="index.html">首頁</a>
+
+<script>
+    let height = prompt("請輸入身高:");
+    let weight = prompt("請輸入體重:");
+    let bmi = getBmi(height,weight);
+    
+    alert("BMI" + bmi);
+
+    //console.log(bmi.toFixed(2));
+    function getBmi(height,weight){
+        const bmi = weight / (height / 100) ** 2 ;
+        return bmi.toFixed(2);
+    }
+
+</script>
 </body>
 </html>
+
+
