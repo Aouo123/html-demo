@@ -71,6 +71,25 @@
             color: yellow;
         }
 
+        #result {
+            font-size: 2rem;
+            font-weight: 200;
+        }
+
+        #info {
+            background-color: rgb(111, 228, 243);
+        }
+
+        .comment {
+            font-size: 1.5rem;
+            font-weight: 200;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .bmi {
+            font-size: 2.5rem;
+        }
+
         @media screen and (max-width:1024px) {
             from{
                 width: 80%;
@@ -94,49 +113,109 @@
         <label for="age">年齡</label>
         <input id="age" name="age" type="number" placeholder="18"><br>
         <label for="height">身高</label>
-        <input id="height" name="height" type="number" step="0.1"><br>
+        <input id="height" name="height" type="number" step="0.1" value="87"><br>
         <label for="weight">體重</label>
         <input id="weight" name="weight" type="number" step="0.1"><br>
         <div class="panel1">
-        <input type="radio" name="sex" id="male">男
-        <input type="radio" name="sex" id="female">女
+        <input type="radio" name="sex" id="male" checked value="男生" >男
+        <input type="radio" name="sex" id="female" value="女生">女
         <label for="county">居住縣市</label>
         <select name="county" id="county">
-            <option value="">基隆市</option>
-            <option value="">臺北市</option>
-            <option value="">新北市</option>
-            <option value="">桃園市</option>
-            <option value="">新竹市</option>
-            <option value="">臺中市</option>
-            <option value="">臺南市</option>
-            <option value="">高雄市</option>
-            <option value="">嘉義市</option>
-            <option value="">新竹縣</option>
-            <option value="">苗栗縣</option>
-            <option value="">彰化縣</option>
-            <option value="">南投縣</option>
-            <option value="">雲林縣</option>
-            <option value="">嘉義縣</option>
-            <option value="">屏東縣</option>
-            <option value="">宜蘭縣</option>
-            <option value="">花蓮縣</option>
-            <option value="">臺東縣</option>
-            <option value="">澎湖縣</option>
-            <option value="">金門縣</option>
-            <option value="">連江縣</option>
+            <option value="基隆市">基隆市</option>
+            <option value="臺北市">臺北市</option>
+            <option value="新北市">新北市</option>
+            <option value="桃園市">桃園市</option>
+            <option value="新竹市">新竹市</option>
+            <option value="臺中市">臺中市</option>
+            <option value="臺南市">臺南市</option>
+            <option value="高雄市">高雄市</option>
+            <option value="嘉義市">嘉義市</option>
+            <option value="新竹縣">新竹縣</option>
+            <option value="苗栗縣">苗栗縣</option>
+            <option value="彰化縣">彰化縣</option>
+            <option value="南投縣">南投縣</option>
+            <option value="雲林縣">雲林縣</option>
+            <option value="嘉義縣">嘉義縣</option>
+            <option value="屏東縣">屏東縣</option>
+            <option value="宜蘭縣">宜蘭縣</option>
+            <option value="花蓮縣">花蓮縣</option>
+            <option value="臺東縣">臺東縣</option>
+            <option value="澎湖縣">澎湖縣</option>
+            <option value="金門縣">金門縣</option>
+            <option value="連江縣">連江縣</option>
         </select></div>
-        <button type="submit">計算</button>
+        <button type="button" onclick="calc()">計算</button>
     </form>
+
+    <div id="info">
+        <span class="username"></span>
+        <p class="age"></p>
+    </div>
+
+    <div id="result">
+        <span class="bmi"></span>
+        <p class="comment"></p>
+    </div>
+
     <a href="index.html">首頁</a>
 
 <script>
-    let height = prompt("請輸入身高:");
-    let weight = prompt("請輸入體重:");
-    let bmi = getBmi(height,weight);
-    
-    alert("BMI" + bmi);
+    const usernameEl=document.querySelector("#username");
+    const ageEl=document.querySelector("#age");
+    const heightEl=document.querySelector("#height");
+    const weightEl=document.querySelector("#weight");
+    const countyEl=document.querySelector("#county");
 
-    //console.log(bmi.toFixed(2));
+    console.log(usernameEl, ageEl, heightEl, weightEl, countyEl.value, heightEl.value, weightEl.value, sexEl.value);
+
+    function calc(){
+        let height=heightEl.value;
+        let weight=weightEl.value;
+
+        if (height <= 0 || weight <= 0){
+            alert("請輸入正確數值");
+            return;
+        }
+
+        const sexEl=document.querySelector("input[name='sex']:checked"); 
+        let userInfo = `${usernameEl.value} 年齡:${ageEl.value} 性別:${sexEl.value} 縣市:${countyEl.value}`;
+        console.log(userInfo);
+        document.querySelector("#info").innerHTML = `<h2>${userInfo}</h2>`;
+
+        let bmi=getBmi(height,weight)
+        let comment = getComment(bmi)
+
+        console.log(bmi, comment[0], comment[1]);
+
+
+        const bmiEl = document.querySelector(".bmi");
+        bmiEl.innerText = `BMI:${bmi}`;
+        bmiEl.style.color = comment[1];
+        document.querySelector(".comment").innerText = comment[0];
+        document.querySelector(".comment").style.color = comment[1];
+
+        //document.querySelector("#result").innerHTML = `<h1>BMI:${bmi}</h1><h3>${comment}</h3>`;
+    }
+
+    function getComment(bmi){
+        let comment, color;
+        if (bmi<18.5){
+            comment="體重過輕";
+            color = "cyan";
+        } else if (bmi<24) {
+            comment="體重正常";
+            color = "green";
+        } else if (bmi<27) {
+            comment="體重過重";
+            color = "orange";
+        } else {
+            comment="體重超重";
+            color = "red";
+        }
+        
+        return [comment, color];
+    }
+    
     function getBmi(height,weight){
         const bmi = weight / (height / 100) ** 2 ;
         return bmi.toFixed(2);
