@@ -18,6 +18,8 @@
         }
 
         form{
+            position:relative;
+            width: 40%;
             background-color: rgb(185, 139, 228);
             margin: 24px auto;
             padding: 24px;
@@ -59,11 +61,14 @@
         }
 
         a{
+            position: absolute;
             background-color: brown;
             color: white;
             padding: 12px;
             border-radius: 6px;
             text-decoration: none;
+            right: 12px;
+            bottom: 12px;
         }
 
         a:hover{
@@ -147,9 +152,11 @@
         <button type="button" onclick="calc()">計算</button>
     </form>
 
+    <div id="record">
+
+    </div>
+
     <div id="info">
-        <span class="username"></span>
-        <p class="age"></p>
     </div>
 
     <div id="result">
@@ -166,7 +173,12 @@
     const weightEl=document.querySelector("#weight");
     const countyEl=document.querySelector("#county");
 
-    console.log(usernameEl, ageEl, heightEl, weightEl, countyEl.value, heightEl.value, weightEl.value, sexEl.value);
+    //console.log(usernameEl, ageEl, heightEl, weightEl, countyEl.value, heightEl.value, weightEl.value, sexEl.value);
+
+    let data = {
+        total: 0,
+        count: 0
+    };
 
     function calc(){
         let height=heightEl.value;
@@ -195,6 +207,13 @@
         document.querySelector(".comment").style.color = comment[1];
 
         //document.querySelector("#result").innerHTML = `<h1>BMI:${bmi}</h1><h3>${comment}</h3>`;
+
+        data["total"] += Number(bmi);
+        data.count += 1;
+
+        console.log(data);
+        let avg = (data.total / data.count).toFixed(1);
+        document.querySelector("#record").innerHTML = `記錄人數:${data.count} 平均BMI:${avg}`;
     }
 
     function getComment(bmi){
