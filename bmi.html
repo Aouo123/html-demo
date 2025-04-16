@@ -209,7 +209,7 @@
                 alert("目前無紀錄!")
                 return;
             }
-            let jsonStr = JSON.stringify(datas);
+            let jsonStr = JSON.stringify(datas, null, 2);
             console.log(jsonStr);
 
             const blobData = new Blob([jsonStr], {type: "application/json"});
@@ -223,6 +223,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.appendChild(a);
+            URL.revokeObjectURL(url);
         }
 
         deleteRecordBtnEl.addEventListener("click", function () {
@@ -381,10 +382,10 @@
             return [comment, color];
             }
 
-            function getBmi(height, weight) {
-                const bmi = weight / (height / 100) ** 2;
-                return bmi.toFixed(2)
-            }
+        function getBmi(height, weight) {
+            const bmi = weight / (height / 100) ** 2;
+            return bmi.toFixed(2)
+        }
 </script>
 </body>
 </html>
